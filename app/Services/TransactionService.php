@@ -219,6 +219,6 @@ class TransactionService
 
     private function findWalletById(int $walletId): Wallet
     {
-        return $this->walletRepository->findById($walletId, ['balance_minor']);
+        return $this->walletRepository->findById($walletId);
     }
 }
