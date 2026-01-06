@@ -25,6 +25,7 @@ class TransactionHistoryRequest extends FormRequest
     {
         return [
             'per_page' => 'sometimes|integer|min:1|max:100',
+            'page' => 'sometimes|integer|min:1',
             'type' => [
                 'sometimes',
                 'string',
