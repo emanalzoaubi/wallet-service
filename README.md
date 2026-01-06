@@ -24,7 +24,7 @@ A RESTful API for managing wallets, performing deposits, withdrawals, and transf
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/emanalzoaubi/wallet-service.git
    cd wallet-service
    ```
 
@@ -183,7 +183,6 @@ Idempotency-Key: unique-key-123
     "type": "deposit",
     "amount_minor": 10000,
     "wallet_id": 1,
-    "related_wallet": null,
     "created_at": "2026-01-05T12:00:00.000000Z"
   }
 }
@@ -209,7 +208,6 @@ Idempotency-Key: unique-key-456
     "type": "withdraw",
     "amount_minor": 5000,
     "wallet_id": 1,
-    "related_wallet": null,
     "created_at": "2026-01-05T12:01:00.000000Z"
   }
 }
@@ -330,7 +328,6 @@ GET /api/health
 ### Idempotency
 - All mutation operations (deposit, withdraw, transfer) require an `Idempotency-Key` header
 - Using the same key with the same parameters returns the original transaction
-- Using the same key with different parameters returns an error
 - **Idempotency-Key Requirements:**
   - The key is opaque and has no restrictions except a maximum length of 255 characters
   - It is the client's responsibility to generate a unique key for each operation
@@ -344,7 +341,7 @@ GET /api/health
 ### Currency Rules
 - Currency must be a 3-letter uppercase code (e.g., USD, EUR, GBP)
 - Transfers only allowed between wallets with the same currency
-- **Note:** For simplicity, currency validation is implemented using a PHP Enum containing common currencies (USD, EUR, GBP, JPY, CAD, AUD, CHF, CNY, INR, BRL). In a production environment, you might want to use a full ISO 4217 currency database or a more comprehensive validation system.
+- **Note:** For simplicity, currency validation is implemented using a PHP Enum containing common currencies (USD, EUR, GBP, JPY, CAD, AUD, CHF, CNY, INR, BRL, SYP, SAR, AED, KWD, QAR, BHD, OMR, KRW, IDR). In a production environment, it is recommended to implement a dedicated currency management system to define and govern supported currencies. This ensures strict adherence to ISO 4217 standards and provides a centralized way to validate monetary inputs against a comprehensive database of allowed currencies.
 
 ### Balance Constraints
 - Wallets cannot have negative balances
@@ -367,18 +364,10 @@ All errors follow a consistent format:
 }
 ```
 
-Or for custom exceptions:
-
-```json
-{
-  "error": "Error Type",
-  "message": "Error description"
-}
-```
-
 ### Common HTTP Status Codes
 
 - `200` - Success
+- `201` - Created
 - `400` - Bad Request (missing Idempotency-Key, validation errors)
 - `404` - Not Found (wallet not found)
 - `409` - Conflict (idempotency key violation)
