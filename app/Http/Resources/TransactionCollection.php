@@ -16,12 +16,7 @@ class TransactionCollection extends ResourceCollection
     {
         return [
             'data' => TransactionResource::collection($this->collection),
-            'pager' =>  [
-                'total' => $this->total(),
-                'per_page' => $this->perPage(),
-                'current_page' => $this->currentPage(),
-                'last_page' => $this->lastPage(),
-            ],
+            'pager' => PagerResource::from($this->resource),
         ];
     }
 }

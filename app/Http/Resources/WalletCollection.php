@@ -16,12 +16,7 @@ class WalletCollection extends ResourceCollection
     {
         return [
             'data' => WalletResource::collection($this->collection),
-            'pager' => [
-                'total' => $this->total(),
-                'per_page' => $this->perPage(),
-                'current_page' => $this->currentPage(),
-                'last_page' => $this->lastPage(),
-            ],
+            'pager' => PagerResource::from($this->resource),
         ];
     }
 }
