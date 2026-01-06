@@ -29,7 +29,7 @@ class TransactionHistoryRequest extends FormRequest
             'type' => [
                 'sometimes',
                 'string',
-                Rule::in(TransactionType::cases()),
+                Rule::enum(TransactionType::class),
             ],
             'date_from' => 'sometimes|date|date_format:Y-m-d',
             'date_to' => 'sometimes|date|date_format:Y-m-d|after_or_equal:date_from',
