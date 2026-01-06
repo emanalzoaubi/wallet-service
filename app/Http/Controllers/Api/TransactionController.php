@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\{
     DepositRequest,
+    TransactionHistoryRequest,
     TransferRequest,
     WithdrawRequest
+};
+use App\Http\Resources\{
+    TransactionCollection,
 };
 use App\Models\Wallet;
 use App\Services\TransactionService;
@@ -47,4 +51,13 @@ class TransactionController extends BaseController
         return $this->respond($transactions);
     }
 
+
+    public function history(Wallet $wallet, TransactionHistoryRequest $request): JsonResponse
+    {
+        $perPage = $request->get('per_page', config('pagination.per_page'));
+        $filters = $request->only(['type', 'date_from', 'date_to']);
+
+        $transactions = $this->transactionService->getTransactionsByWalletId($wallet->id, (int) $perPage, $filters);
+        return $this->respond(new TransactionCollection($transactions));
+    }
 }

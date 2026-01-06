@@ -154,4 +154,9 @@ class TransactionService
     {
         return $this->walletRepository->findByIdWithLock($walletId);
     }
+
+    public function getTransactionsByWalletId(int $walletId, int $perPage, array $filters = []): LengthAwarePaginator
+    {
+        return $this->transactionRepository->getTransactionsByWalletId($walletId, $perPage, $filters);
+    }
 }
