@@ -13,6 +13,7 @@ A RESTful API for managing wallets, performing deposits, withdrawals, and transf
 - ✅ Double-entry accounting for transfers
 - ✅ Database transactions for atomicity
 - ✅ Row-level locking to prevent race conditions
+- ✅ Docker support for easy deployment
 
 ## Requirements
 
@@ -20,7 +21,75 @@ A RESTful API for managing wallets, performing deposits, withdrawals, and transf
 - Composer
 - MySQL
 
+**Or using Docker:**
+- Docker
+- Docker Compose
+
 ## Installation
+
+### Option 1: Using Docker (Recommended)
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/emanalzoaubi/wallet-service.git
+   cd wallet-service
+   ```
+
+2. **Configure environment**
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Update `.env` file** for Docker:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=db
+   DB_PORT=3306
+   DB_DATABASE=wallet_service
+   DB_USERNAME=wallet_user
+   DB_PASSWORD=
+   ```
+
+4. **Build and start containers**
+   ```bash
+   docker-compose up -d --build
+   ```
+
+5. **Generate application key**
+   ```bash
+   docker-compose exec app php artisan key:generate
+   ```
+
+6. **Run migrations**
+   ```bash
+   docker-compose exec app php artisan migrate
+   ```
+
+The API will be available at `http://localhost:8000/api`
+
+#### Docker Commands Reference
+
+```bash
+# Start containers
+docker-compose up -d
+
+# Stop containers
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Execute artisan commands
+docker-compose exec app php artisan <command>
+
+# Access MySQL
+docker-compose exec db mysql -u wallet_user -p wallet_service
+
+# Rebuild containers (after Dockerfile changes)
+docker-compose up -d --build
+```
+
+### Option 2: Local Installation
 
 1. **Clone the repository**
    ```bash
@@ -461,9 +530,20 @@ The application follows a clean architecture pattern:
 - **Requests** (`app/Http/Requests/`) - Form validation
 - **Exceptions** (`app/Exceptions/`) - Custom exception handlers
 
+## Docker Architecture
+
+The application is containerized using Docker with the following services:
+
+- **app** - PHP 8.4 container running Laravel's built-in server
+- **db** - MySQL 8.0 database server
+
+> **Note:** This Docker setup uses Laravel's built-in development server (`php artisan serve`) for simplicity and ease of testing. This is intentional for demonstration purposes. For production deployments, you should use a proper web server like **Nginx** with **PHP-FPM**, which provides better performance, concurrency handling, and security.
+
 ## Future Improvements
 
 - [ ] Add API versioning (`/api/v1/...`)
 - [ ] Add transaction logging/audit trail
 - [ ] Add balance verification endpoint
 - [ ] Add caching for read-heavy endpoints
+- [ ] Add Redis for caching and queue management
+- [ ] Add CI/CD pipeline configuration
