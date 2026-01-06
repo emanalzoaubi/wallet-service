@@ -15,6 +15,7 @@ use App\Http\Resources\{
     WalletCollection,
     WalletResource
 };
+use Illuminate\Http\Response;
 
 class WalletController extends BaseController
 {
@@ -37,7 +38,7 @@ class WalletController extends BaseController
     public function store(CreateWalletRequest $request): JsonResponse
     {
         $wallet = $this->walletService->createWallet($request->owner_name, $request->currency);
-        return $this->respond(new WalletResource($wallet));
+        return $this->respond(new WalletResource($wallet), Response::HTTP_CREATED);
     }
 
     public function show(int $id): JsonResponse
