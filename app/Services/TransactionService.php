@@ -74,7 +74,61 @@ class TransactionService
         });
     }
 
-  
+    public function transfer(int $fromWalletId, int $toWalletId, int $amount, string $idempotencyKey): array
+    {
+        if ($fromWalletId === $toWalletId) {
+            throw new InvalidTransferException('Cannot transfer to the same wallet.');
+        }
+
+        return DB::transaction(function () use ($fromWalletId, $toWalletId, $amount, $idempotencyKey) {
+            $firstIdToLock = min($fromWalletId, $toWalletId);
+            $secondIdToLock = max($fromWalletId, $toWalletId);
+
+            $this->findAndLockWallet($firstIdToLock);
+            $this->findAndLockWallet($secondIdToLock);
+
+            $fromWallet = $this->walletRepository->findById($fromWalletId);
+            $toWallet = $this->walletRepository->findById($toWalletId);
+
+            if ($fromWallet->currency !== $toWallet->currency) {
+                throw new CurrencyMismatchException('Currency mismatch. Transfer must use the same currency.');
+            }
+
+            $existingDebitTransaction = $this->findTransactionByWalletIdAndIdempotencyKey($fromWalletId, $idempotencyKey);
+            $existingCreditTransaction = $this->findTransactionByWalletIdAndIdempotencyKey($toWalletId, $idempotencyKey);
+
+            if ($existingDebitTransaction && $existingCreditTransaction) {
+                return [
+                    'debit_transaction' => $existingDebitTransaction,
+                    'credit_transaction' => $existingCreditTransaction,
+                ];
+            }
+
+            if ($existingDebitTransaction || $existingCreditTransaction) {
+                throw new IdempotencyKeyViolationException('Idempotency key violation. Please use a different idempotency key.');
+            }
+
+            $fromWalletBalanceMinor = $fromWallet->balance_minor;
+
+            if ($fromWalletBalanceMinor < $amount) {
+                throw new InsufficientFundsException('Insufficient balance for transfer');
+            }
+
+            $toWalletBalanceMinor = $toWallet->balance_minor;
+
+            $this->updateWalletBalanceMinor($fromWalletId, $fromWalletBalanceMinor - $amount);
+            $this->updateWalletBalanceMinor($toWalletId, $toWalletBalanceMinor + $amount);
+
+            $debitTransaction = $this->createTransaction($fromWalletId, TransactionType::TRANSFER_DEBIT, $amount, $idempotencyKey, $toWalletId);
+            $creditTransaction = $this->createTransaction($toWalletId, TransactionType::TRANSFER_CREDIT, $amount, $idempotencyKey, $fromWalletId);
+
+            return [
+                'debit_transaction' => $debitTransaction,
+                'credit_transaction' => $creditTransaction,
+            ];
+        });
+    }
+
     private function createTransaction(int $walletId, TransactionType $type, int $amount, string $idempotencyKey, ?int $relatedWalletId = null): Transaction
     {
         return $this->transactionRepository->create([
@@ -100,5 +154,4 @@ class TransactionService
     {
         return $this->walletRepository->findByIdWithLock($walletId);
     }
-
 }

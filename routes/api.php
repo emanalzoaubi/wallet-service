@@ -13,6 +13,7 @@ Route::get('/wallets/{id}/balance', [WalletController::class, 'showBalance']);
 Route::middleware('idempotency')->group(function () {
     Route::post('/wallets/{wallet}/deposit', [TransactionController::class, 'deposit']);
     Route::post('/wallets/{wallet}/withdraw', [TransactionController::class, 'withdraw']);
+    Route::post('/transfer', [TransactionController::class, 'transfer']);
 });
 
 Route::get('/health', fn() => response()->json(['status' => 'ok']));
