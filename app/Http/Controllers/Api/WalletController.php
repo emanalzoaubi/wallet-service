@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\CreateWalletRequest;
 use App\Services\WalletService;
+use Illuminate\Http\JsonResponse;
+
+use App\Http\Requests\{
+    CreateWalletRequest,
+    GetWalletsRequest
+};
 use App\Http\Resources\{
     BalanceResource,
     WalletCollection,
     WalletResource
 };
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class WalletController extends BaseController
 {
@@ -22,7 +25,7 @@ class WalletController extends BaseController
         $this->walletService = $walletService;
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(GetWalletsRequest $request): JsonResponse
     {
         $perPage = $request->get('per_page', config('pagination.per_page'));
         $filters = $request->only(['owner_name', 'currency']);
