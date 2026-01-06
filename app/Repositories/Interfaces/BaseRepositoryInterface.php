@@ -9,29 +9,33 @@ interface BaseRepositoryInterface{
      * Get all models.
      *
      * @param int $perPage
+     * @param array $filters Filters to apply.
+     *                       Format: ['column' => 'value'] - exact match
+     *                       Format: ['column' => ['like' => 'value']] - LIKE '%value%'
+     *                       Format: ['column' => ['in' => [1,2,3]]] - IN clause
+     *                       Format: ['column' => ['between' => [min, max]]] - BETWEEN clause
      * @param array $columns
      * @param array $relations
-     * @param array $filters Filters to apply using LIKE operator.
-     *                       Format: ['column' => 'value'] - applies LIKE '%value%'
      * @return LengthAwarePaginator
      */
-    public function all(int $perPage,array $filters = [], array $columns = ['*'], array $relations = []): LengthAwarePaginator;
+    public function all(int $perPage, array $filters = [], array $columns = ['*'], array $relations = []): LengthAwarePaginator;
 
     /**
-     * Find model by id.
+     * Find model by id (throws exception if not found).
      *
      * @param int $modelId
      * @param array $columns
      * @param array $relations
      * @param array $appends
      * @return Model
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function findById(
         int $modelId,
         array $columns = ['*'],
         array $relations = [],
         array $appends = []
-    ): ?Model;
+    ): Model;
 
     /**
      * Create a model.

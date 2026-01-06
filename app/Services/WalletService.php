@@ -17,7 +17,24 @@ class WalletService
 
     public function getAllWallets(int $perPage, array $filters = []): LengthAwarePaginator
     {
-        return $this->walletRepository->all($perPage, $filters);
+        // Convert simple filters to proper format
+        $processedFilters = [];
+        
+        foreach ($filters as $key => $value) {
+            if ($value === null || $value === '') {
+                continue;
+            }
+            
+            // For owner_name, use LIKE for partial matching
+            if ($key === 'owner_name') {
+                $processedFilters[$key] = ['like' => $value];
+            } else {
+                // For other fields like currency, use exact match
+                $processedFilters[$key] = $value;
+            }
+        }
+        
+        return $this->walletRepository->all($perPage, $processedFilters);
     }
 
     public function createWallet(string $ownerName, string $currency): Wallet

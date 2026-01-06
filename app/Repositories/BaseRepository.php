@@ -27,8 +27,10 @@ class BaseRepository implements BaseRepositoryInterface
      * Get all models.
      *
      * @param int $perPage
-     * @param array $filters Filters to apply using LIKE operator.
-     *                       Format: ['column' => 'value'] - applies LIKE '%value%'
+     * @param array $filters Filters to apply.
+     *                       Format: ['column' => 'value'] - exact match
+     *                       Format: ['column' => ['like' => 'value']] - LIKE '%value%'
+     *                       Format: ['column' => ['in' => [1,2,3]]] - IN clause
      * @param array $columns
      * @param array $relations
      * @return LengthAwarePaginator
@@ -38,14 +40,34 @@ class BaseRepository implements BaseRepositoryInterface
         $query = $this->model->with($relations);
 
         foreach ($filters as $column => $value) {
-            
-            $query->where(function ($q) use ($column, $value) {
-                $values = (array) $value;
-                
-                foreach ($values as $val) {
-                    $q->orWhereLike($column, '%' . $val . '%');
+            if ($value === null || $value === '') {
+                continue;
+            }
+
+            // Handle special filter operators (associative array with string keys)
+            if (is_array($value) && array_keys($value) !== range(0, count($value) - 1)) {
+                // Associative array - check for special operators
+                if (isset($value['like'])) {
+                    $query->where($column, 'like', '%' . $value['like'] . '%');
+                } elseif (isset($value['in'])) {
+                    $query->whereIn($column, $value['in']);
+                } elseif (isset($value['not_in'])) {
+                    $query->whereNotIn($column, $value['not_in']);
+                } elseif (isset($value['between'])) {
+                    $query->whereBetween($column, $value['between']);
+                } else {
+                    // Other operators (>, <, >=, <=, !=, etc.)
+                    foreach ($value as $operator => $operatorValue) {
+                        $query->where($column, $operator, $operatorValue);
+                    }
                 }
-            });
+            } elseif (is_array($value)) {
+                // Numeric array - use IN clause
+                $query->whereIn($column, $value);
+            } else {
+                // Simple exact match
+                $query->where($column, $value);
+            }
         }
     
         return $query->paginate($perPage, $columns);
@@ -53,23 +75,29 @@ class BaseRepository implements BaseRepositoryInterface
 
 
     /**
-     * Find model by id.
+     * Find model by id (throws exception if not found).
      *
      * @param int $modelId
      * @param array $columns
      * @param array $relations
      * @param array $appends
      * @return Model
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function findById(
         int $modelId,
         array $columns = ['*'],
         array $relations = [],
         array $appends = []
-    ): ?Model {
-        return $this->model->select($columns)->with($relations)->findOrFail($modelId)->append($appends);
+    ): Model {
+        $model = $this->model->select($columns)->with($relations)->findOrFail($modelId);
+        
+        if (!empty($appends)) {
+            $model->append($appends);
+        }
+        
+        return $model;
     }
-
 
     /**
      * Create a model.
