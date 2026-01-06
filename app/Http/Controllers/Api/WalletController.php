@@ -20,12 +20,8 @@ use App\Http\Resources\{
 
 class WalletController extends BaseController
 {
-    private $walletService;
 
-    public function __construct(WalletService $walletService)
-    {
-        $this->walletService = $walletService;
-    }
+    public function __construct(private WalletService $walletService) {}
 
     /**
      * Get all wallets

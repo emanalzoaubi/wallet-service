@@ -8,12 +8,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class WalletService
 {
-    private $walletRepository;
-
-    public function __construct(WalletRepositoryInterface $walletRepository)
-    {
-        $this->walletRepository = $walletRepository;
-    }
+    public function __construct(
+       private WalletRepositoryInterface $walletRepository
+    ) {}
 
     /**
      * Get all wallets

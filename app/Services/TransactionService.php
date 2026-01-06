@@ -22,14 +22,10 @@ use App\Repositories\Interfaces\{
 
 class TransactionService
 {
-    private $walletRepository;
-    private $transactionRepository;
-
-    public function __construct(WalletRepositoryInterface $walletRepository, TransactionRepositoryInterface $transactionRepository)
-    {
-        $this->walletRepository = $walletRepository;
-        $this->transactionRepository = $transactionRepository;
-    }
+    public function __construct(
+       private WalletRepositoryInterface $walletRepository,
+       private TransactionRepositoryInterface $transactionRepository
+    ) {}
 
     /**
      * Deposit money into a wallet

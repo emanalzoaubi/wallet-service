@@ -20,12 +20,7 @@ use Illuminate\Http\JsonResponse;
 
 class TransactionController extends BaseController
 {
-    private $transactionService;
-
-    public function __construct(TransactionService $transactionService)
-    {
-        $this->transactionService = $transactionService;
-    }
+    public function __construct(private TransactionService $transactionService) {}
 
     /**
      * Deposit money into a wallet
