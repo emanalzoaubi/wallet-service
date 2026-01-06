@@ -15,3 +15,4 @@ Route::middleware('idempotency')->group(function () {
     Route::post('/wallets/{wallet}/withdraw', [TransactionController::class, 'withdraw']);
 });
 
+Route::get('/health', fn() => response()->json(['status' => 'ok']));
