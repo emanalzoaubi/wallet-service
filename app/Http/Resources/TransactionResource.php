@@ -15,28 +15,16 @@ class TransactionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = [
+        return [
             'id' => $this->id,
             'type' => $this->type->value,
             'amount_minor' => $this->amount_minor,
             'wallet_id' => $this->wallet_id,
-            'created_at' => $this->created_at,
-        ];
-
-        // Only include related_wallet for transfer transactions
-        if ($this->isTransferTransaction()) {
-            $data['related_wallet'] = [
+            'related_wallet' => $this->relatedWallet ? [
                 'id' => $this->relatedWallet->id,
                 'owner_name' => $this->relatedWallet->owner_name,
-            ];
-        }
-
-        return $data;
-    }
-
-    private function isTransferTransaction(): bool
-    {
-        return $this->type === TransactionType::TRANSFER_DEBIT || $this->type === TransactionType::TRANSFER_CREDIT;
+            ] : null,
+            'created_at' => $this->created_at,
+        ];
     }
 }
-
