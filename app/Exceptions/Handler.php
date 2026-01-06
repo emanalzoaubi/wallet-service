@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Throwable;
 
 class Handler
@@ -31,6 +32,11 @@ class Handler
         // Handle ValidationException (422)
         if ($exception instanceof ValidationException) {
             return $this->handleValidation($exception);
+        }
+
+        // Handle rate limit exceptions (429)
+        if ($exception instanceof TooManyRequestsHttpException) {
+            return $this->handleRateLimit($exception);
         }
 
         // Handle custom application exceptions
@@ -89,6 +95,25 @@ class Handler
             'message' => 'Validation failed.',
             'errors' => $exception->errors(),
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     * Handle rate limit exceptions.
+     */
+    private function handleRateLimit(TooManyRequestsHttpException $exception): JsonResponse
+    {
+        $retryAfter = $exception->getHeaders()['Retry-After'] ?? null;
+        
+        $response = response()->json([
+            'status' => 'error',
+            'message' => 'Too many requests. Please try again later.',
+        ], Response::HTTP_TOO_MANY_REQUESTS);
+
+        if ($retryAfter) {
+            $response->header('Retry-After', $retryAfter);
+        }
+
+        return $response;
     }
 
     /**
