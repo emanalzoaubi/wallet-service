@@ -27,6 +27,13 @@ class TransactionController extends BaseController
         $this->transactionService = $transactionService;
     }
 
+    /**
+     * Deposit money into a wallet
+     * 
+     * @param Wallet $wallet
+     * @param DepositRequest $request
+     * @return JsonResponse
+     */
     public function deposit(Wallet $wallet, DepositRequest $request): JsonResponse
     {
         $idempotencyKey = $request->header('Idempotency-Key');
@@ -35,6 +42,13 @@ class TransactionController extends BaseController
         return $this->respond(new TransactionResource($transaction));
     }
 
+    /**
+     * Withdraw money from a wallet
+     * 
+     * @param Wallet $wallet
+     * @param WithdrawRequest $request
+     * @return JsonResponse
+     */
     public function withdraw(Wallet $wallet, WithdrawRequest $request): JsonResponse
     {
         $idempotencyKey = $request->header('Idempotency-Key');
@@ -43,6 +57,12 @@ class TransactionController extends BaseController
         return $this->respond(new TransactionResource($transaction));
     }
 
+    /**
+     * Transfer money between two wallets
+     * 
+     * @param TransferRequest $request
+     * @return JsonResponse
+     */
     public function transfer(TransferRequest $request): JsonResponse
     {
         $idempotencyKey = $request->header('Idempotency-Key');
@@ -54,7 +74,14 @@ class TransactionController extends BaseController
         $transferResource = new TransferResource($transactions);
         return $this->respond($transferResource->toArray($request));
     }
-    
+
+    /**
+     * Get the transaction history for a wallet
+     * 
+     * @param Wallet $wallet
+     * @param TransactionHistoryRequest $request
+     * @return JsonResponse
+     */
     public function history(Wallet $wallet, TransactionHistoryRequest $request): JsonResponse
     {
         $perPage = $request->get('per_page', config('pagination.per_page'));

@@ -15,6 +15,13 @@ class WalletService
         $this->walletRepository = $walletRepository;
     }
 
+    /**
+     * Get all wallets
+     * 
+     * @param int $perPage
+     * @param array $filters
+     * @return LengthAwarePaginator
+     */
     public function getAllWallets(int $perPage, array $filters = []): LengthAwarePaginator
     {
         // Convert simple filters to proper format
@@ -37,6 +44,13 @@ class WalletService
         return $this->walletRepository->all($perPage, $processedFilters);
     }
 
+    /**
+     * Create a new wallet
+     * 
+     * @param string $ownerName
+     * @param string $currency
+     * @return Wallet
+     */
     public function createWallet(string $ownerName, string $currency): Wallet
     {
         return $this->walletRepository->create([
@@ -45,11 +59,23 @@ class WalletService
         ]);
     }
 
+    /**
+     * Get a wallet by id
+     * 
+     * @param int $id
+     * @return Wallet
+     */
     public function getWalletById(int $id): Wallet
     {
         return $this->walletRepository->findById($id);
     }
 
+    /**
+     * Get the balance of a wallet
+     * 
+     * @param int $id
+     * @return Wallet
+     */
     public function getWalletBalance(int $id): Wallet
     {
         return $this->walletRepository->findById($id, ['balance_minor']);
