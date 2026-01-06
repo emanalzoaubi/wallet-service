@@ -15,7 +15,19 @@ class TransactionCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => TransactionResource::collection($this->collection),
+            'data' => $this->collection->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'type' => $item->type->value,
+                    'amount_minor' => $item->amount_minor,
+                    'wallet_id' => $item->wallet_id,
+                    'related_wallet' => $item->relatedWallet ? [
+                        'id' => $item->relatedWallet->id,
+                        'owner_name' => $item->relatedWallet->owner_name,
+                    ] : null,
+                    'created_at' => $item->created_at,
+                ];
+            }),
             'pager' => [
                 'total' => $this->total(),
                 'per_page' => $this->perPage(),
@@ -25,4 +37,3 @@ class TransactionCollection extends ResourceCollection
         ];
     }
 }
-
