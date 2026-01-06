@@ -48,7 +48,7 @@
 					},
 					"response": [
 						{
-							"name": "Invalid currency validation error",
+							"name": "invalid currency validation error",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -128,7 +128,7 @@
 							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Validation failed.\",\n    \"errors\": {\n        \"currency\": [\n            \"The selected currency is invalid.\"\n        ]\n    }\n}"
 						},
 						{
-							"name": "Success",
+							"name": "success",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -143,7 +143,7 @@
 									"urlencoded": [
 										{
 											"key": "owner_name",
-											"value": "John",
+											"value": "Jane",
 											"type": "text"
 										},
 										{
@@ -163,8 +163,8 @@
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
+							"status": "Created",
+							"code": 201,
 							"_postman_previewlanguage": null,
 							"header": [
 								{
@@ -185,7 +185,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 06 Jan 2026 10:11:34 GMT"
+									"value": "Tue, 06 Jan 2026 12:38:02 GMT"
 								},
 								{
 									"key": "Content-Type",
@@ -197,7 +197,7 @@
 								},
 								{
 									"key": "X-RateLimit-Remaining",
-									"value": "28"
+									"value": "29"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -205,7 +205,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": 6,\n        \"owner_name\": \"John\",\n        \"currency\": \"USD\",\n        \"balance_minor\": 0\n    }\n}"
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": 8,\n        \"owner_name\": \"Jane\",\n        \"currency\": \"USD\",\n        \"balance_minor\": 0,\n        \"created_at\": \"2026-01-06T12:38:02.000000Z\"\n    }\n}"
 						}
 					]
 				},
@@ -251,7 +251,7 @@
 					},
 					"response": [
 						{
-							"name": "Not found",
+							"name": "not found",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
@@ -324,7 +324,7 @@
 							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Resource not found.\"\n}"
 						},
 						{
-							"name": "Success",
+							"name": "success",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
@@ -382,11 +382,19 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 06 Jan 2026 09:28:35 GMT"
+									"value": "Tue, 06 Jan 2026 12:38:25 GMT"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -394,7 +402,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": 1,\n        \"owner_name\": \"Wallet_A\",\n        \"currency\": \"USD\",\n        \"balance_minor\": 800\n    }\n}"
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": 1,\n        \"owner_name\": \"Max\",\n        \"currency\": \"USD\",\n        \"balance_minor\": 1580,\n        \"created_at\": \"2026-01-05T18:29:44.000000Z\"\n    }\n}"
 						}
 					]
 				},
@@ -437,7 +445,7 @@
 					},
 					"response": [
 						{
-							"name": "get all wallets",
+							"name": "success",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -475,7 +483,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "",
+							"_postman_previewlanguage": null,
 							"header": [
 								{
 									"key": "Host",
@@ -495,11 +503,19 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 06 Jan 2026 09:35:37 GMT"
+									"value": "Tue, 06 Jan 2026 12:39:23 GMT"
 								},
 								{
 									"key": "Content-Type",
 									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -507,7 +523,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"data\": [\n            {\n                \"id\": 1,\n                \"owner_name\": \"Wallet_A\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 800\n            },\n            {\n                \"id\": 2,\n                \"owner_name\": \"Wallet_B\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 0\n            },\n            {\n                \"id\": 3,\n                \"owner_name\": \"Wallet_C\",\n                \"currency\": \"EUR\",\n                \"balance_minor\": 0\n            },\n            {\n                \"id\": 4,\n                \"owner_name\": \"Wallet E\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 0\n            },\n            {\n                \"id\": 5,\n                \"owner_name\": \"Wallet E\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 0\n            }\n        ],\n        \"pager\": {\n            \"total\": 5,\n            \"per_page\": 10,\n            \"current_page\": 1,\n            \"last_page\": 1\n        }\n    }\n}"
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"data\": [\n            {\n                \"id\": 1,\n                \"owner_name\": \"Max\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 1580,\n                \"created_at\": \"2026-01-05T18:29:44.000000Z\"\n            },\n            {\n                \"id\": 2,\n                \"owner_name\": \"Tom\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 0,\n                \"created_at\": \"2026-01-05T18:29:52.000000Z\"\n            },\n            {\n                \"id\": 3,\n                \"owner_name\": \"Mhd\",\n                \"currency\": \"EUR\",\n                \"balance_minor\": 0,\n                \"created_at\": \"2026-01-05T18:30:35.000000Z\"\n            },\n            {\n                \"id\": 4,\n                \"owner_name\": \"Jad\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 0,\n                \"created_at\": \"2026-01-06T09:14:40.000000Z\"\n            },\n            {\n                \"id\": 5,\n                \"owner_name\": \"Joel\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 200,\n                \"created_at\": \"2026-01-06T09:15:03.000000Z\"\n            },\n            {\n                \"id\": 6,\n                \"owner_name\": \"John\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 0,\n                \"created_at\": \"2026-01-06T10:11:34.000000Z\"\n            },\n            {\n                \"id\": 7,\n                \"owner_name\": \"John\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 0,\n                \"created_at\": \"2026-01-06T12:35:46.000000Z\"\n            },\n            {\n                \"id\": 8,\n                \"owner_name\": \"Jane\",\n                \"currency\": \"USD\",\n                \"balance_minor\": 0,\n                \"created_at\": \"2026-01-06T12:38:02.000000Z\"\n            }\n        ],\n        \"pager\": {\n            \"total\": 8,\n            \"per_page\": 10,\n            \"current_page\": 1,\n            \"last_page\": 1\n        }\n    }\n}"
 						}
 					]
 				},
@@ -554,7 +570,7 @@
 					},
 					"response": [
 						{
-							"name": "Success",
+							"name": "success",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
@@ -682,7 +698,7 @@
 					},
 					"response": [
 						{
-							"name": "Missing Idempotency Key header",
+							"name": "missing Idempotency Key header",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -765,7 +781,7 @@
 							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Idempotency-Key header is required\"\n}"
 						},
 						{
-							"name": "Deposit zero amount validation error",
+							"name": "deposit zero amount validation error",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -847,7 +863,7 @@
 							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Validation failed.\",\n    \"errors\": {\n        \"amount\": [\n            \"The amount field must be at least 1.\"\n        ]\n    }\n}"
 						},
 						{
-							"name": "Success",
+							"name": "success",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -858,7 +874,7 @@
 									},
 									{
 										"key": "Idempotency-Key",
-										"value": "006579022874485485",
+										"value": "0032228744854630545",
 										"type": "text"
 									}
 								],
@@ -867,7 +883,7 @@
 									"urlencoded": [
 										{
 											"key": "amount",
-											"value": "200",
+											"value": "1000",
 											"type": "text"
 										}
 									]
@@ -906,7 +922,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 06 Jan 2026 10:15:40 GMT"
+									"value": "Tue, 06 Jan 2026 12:39:58 GMT"
 								},
 								{
 									"key": "Content-Type",
@@ -926,7 +942,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": 14,\n        \"type\": \"deposit\",\n        \"amount_minor\": 200,\n        \"wallet_id\": 1,\n        \"created_at\": \"2026-01-06T10:11:56.000000Z\"\n    }\n}"
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": 27,\n        \"type\": \"deposit\",\n        \"amount_minor\": 1000,\n        \"wallet_id\": 1,\n        \"related_wallet\": null,\n        \"created_at\": \"2026-01-06T12:39:58.000000Z\"\n    }\n}"
 						}
 					]
 				},
@@ -971,7 +987,7 @@
 					},
 					"response": [
 						{
-							"name": "Success",
+							"name": "success",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -1053,7 +1069,7 @@
 							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": 16,\n        \"type\": \"withdraw\",\n        \"amount_minor\": 200,\n        \"wallet_id\": 1,\n        \"created_at\": \"2026-01-06T10:16:08.000000Z\"\n    }\n}"
 						},
 						{
-							"name": "Missing Idempotency Key header",
+							"name": "missing idempotency key header",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -1179,7 +1195,7 @@
 					},
 					"response": [
 						{
-							"name": "Success",
+							"name": "success",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
@@ -1263,7 +1279,7 @@
 							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"data\": [\n            {\n                \"id\": 10,\n                \"type\": \"transfer_credit\",\n                \"amount_minor\": 50,\n                \"wallet_id\": 1,\n                \"related_wallet\": {\n                    \"id\": 2,\n                    \"owner_name\": \"Tom\"\n                },\n                \"created_at\": \"2026-01-10T06:26:48.000000Z\"\n            },\n            {\n                \"id\": 21,\n                \"type\": \"transfer_debit\",\n                \"amount_minor\": 50,\n                \"wallet_id\": 1,\n                \"related_wallet\": {\n                    \"id\": 5,\n                    \"owner_name\": \"Joel\"\n                },\n                \"created_at\": \"2026-01-06T10:19:45.000000Z\"\n            },\n            {\n                \"id\": 19,\n                \"type\": \"transfer_debit\",\n                \"amount_minor\": 50,\n                \"wallet_id\": 1,\n                \"related_wallet\": {\n                    \"id\": 5,\n                    \"owner_name\": \"Joel\"\n                },\n                \"created_at\": \"2026-01-06T10:19:20.000000Z\"\n            },\n            {\n                \"id\": 17,\n                \"type\": \"transfer_debit\",\n                \"amount_minor\": 50,\n                \"wallet_id\": 1,\n                \"related_wallet\": {\n                    \"id\": 5,\n                    \"owner_name\": \"Joel\"\n                },\n                \"created_at\": \"2026-01-06T10:17:37.000000Z\"\n            },\n            {\n                \"id\": 16,\n                \"type\": \"withdraw\",\n                \"amount_minor\": 200,\n                \"wallet_id\": 1,\n                \"related_wallet\": null,\n                \"created_at\": \"2026-01-06T10:16:08.000000Z\"\n            },\n            {\n                \"id\": 15,\n                \"type\": \"withdraw\",\n                \"amount_minor\": 200,\n                \"wallet_id\": 1,\n                \"related_wallet\": null,\n                \"created_at\": \"2026-01-06T10:12:26.000000Z\"\n            },\n            {\n                \"id\": 14,\n                \"type\": \"deposit\",\n                \"amount_minor\": 200,\n                \"wallet_id\": 1,\n                \"related_wallet\": null,\n                \"created_at\": \"2026-01-06T10:11:56.000000Z\"\n            },\n            {\n                \"id\": 13,\n                \"type\": \"deposit\",\n                \"amount_minor\": 200,\n                \"wallet_id\": 1,\n                \"related_wallet\": null,\n                \"created_at\": \"2026-01-06T10:10:20.000000Z\"\n            },\n            {\n                \"id\": 8,\n                \"type\": \"withdraw\",\n                \"amount_minor\": 100,\n                \"wallet_id\": 1,\n                \"related_wallet\": null,\n                \"created_at\": \"2026-01-06T06:24:01.000000Z\"\n            },\n            {\n                \"id\": 6,\n                \"type\": \"transfer_debit\",\n                \"amount_minor\": 50,\n                \"wallet_id\": 1,\n                \"related_wallet\": {\n                    \"id\": 2,\n                    \"owner_name\": \"Tom\"\n                },\n                \"created_at\": \"2026-01-06T06:19:44.000000Z\"\n            }\n        ],\n        \"pager\": {\n            \"total\": 14,\n            \"per_page\": 10,\n            \"current_page\": 1,\n            \"last_page\": 2\n        }\n    }\n}"
 						},
 						{
-							"name": "Invalid type in filtration",
+							"name": "invalid type in filtration",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
@@ -1346,7 +1362,7 @@
 							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Validation failed.\",\n    \"errors\": {\n        \"type\": [\n            \"The selected type is invalid.\"\n        ]\n    }\n}"
 						},
 						{
-							"name": "Invalid date range, to is greater than from",
+							"name": "invalid date range, to is greater than from",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
@@ -1478,97 +1494,7 @@
 					},
 					"response": [
 						{
-							"name": "Success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Idempotency-Key",
-										"value": "235423423424243",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "from_wallet_id",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "to_wallet_id",
-											"value": "5",
-											"type": "text"
-										},
-										{
-											"key": "amount",
-											"value": "50",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{API_URL}}/transfers",
-									"host": [
-										"{{API_URL}}"
-									],
-									"path": [
-										"transfers"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": null,
-							"header": [
-								{
-									"key": "Host",
-									"value": "localhost:8000"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.4.0"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 06 Jan 2026 10:19:45 GMT"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "20"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "18"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"debit_transaction\": {\n            \"id\": 21,\n            \"type\": \"transfer_debit\",\n            \"amount_minor\": 50,\n            \"wallet_id\": 1,\n            \"created_at\": \"2026-01-06T10:19:45.000000Z\",\n            \"related_wallet\": {\n                \"id\": 5,\n                \"owner_name\": \"Joel\"\n            }\n        },\n        \"credit_transaction\": {\n            \"id\": 22,\n            \"type\": \"transfer_credit\",\n            \"amount_minor\": 50,\n            \"wallet_id\": 5,\n            \"created_at\": \"2026-01-06T10:19:45.000000Z\",\n            \"related_wallet\": {\n                \"id\": 1,\n                \"owner_name\": \"Max\"\n            }\n        }\n    }\n}"
-						},
-						{
-							"name": "Missing Idempotency Key header",
+							"name": "missing idempotency key header",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -1657,6 +1583,96 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Idempotency-Key header is required\"\n}"
+						},
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Idempotency-Key",
+										"value": "235423423424243023",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "from_wallet_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "to_wallet_id",
+											"value": "5",
+											"type": "text"
+										},
+										{
+											"key": "amount",
+											"value": "50",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{API_URL}}/transfers",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"transfers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.4.0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 06 Jan 2026 12:42:39 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "20"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "19"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"debit_transaction\": {\n            \"id\": 29,\n            \"type\": \"transfer_debit\",\n            \"amount_minor\": 50,\n            \"wallet_id\": 1,\n            \"related_wallet\": {\n                \"id\": 5,\n                \"owner_name\": \"Joel\"\n            },\n            \"created_at\": \"2026-01-06T12:42:39.000000Z\"\n        },\n        \"credit_transaction\": {\n            \"id\": 30,\n            \"type\": \"transfer_credit\",\n            \"amount_minor\": 50,\n            \"wallet_id\": 5,\n            \"related_wallet\": {\n                \"id\": 1,\n                \"owner_name\": \"Max\"\n            },\n            \"created_at\": \"2026-01-06T12:42:39.000000Z\"\n        }\n    }\n}"
 						}
 					]
 				}
