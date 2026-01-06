@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateWalletRequest;
 use App\Services\WalletService;
 use App\Http\Resources\{
+    BalanceResource,
     WalletCollection,
     WalletResource
 };
@@ -24,7 +25,7 @@ class WalletController extends BaseController
     {
         $perPage = $request->get('per_page', config('pagination.per_page'));
         $filters = $request->only(['owner_name', 'currency']);
-        
+
         $wallets = $this->walletService->getAllWallets((int) $perPage, $filters);
         return $this->respond(new WalletCollection($wallets));
     }
@@ -39,5 +40,12 @@ class WalletController extends BaseController
     {
         $wallet = $this->walletService->getWalletById($id);
         return $this->respond(new WalletResource($wallet));
+    }
+
+    public function showBalance(int $id)
+    {
+        $wallet = $this->walletService->getWalletBalance($id);
+
+        return $this->respond(new BalanceResource($wallet));
     }
 }

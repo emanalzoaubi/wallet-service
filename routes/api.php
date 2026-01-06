@@ -11,5 +11,4 @@ Route::get('/user', function (Request $request) {
 Route::post('/wallets', [WalletController::class, 'store']);
 Route::get('/wallets/{id}', [WalletController::class, 'show']);
 Route::get('/wallets', [WalletController::class, 'index']);
-
-Route::get('/health', fn () => response()->json(['status' => 'ok']));
+Route::get('/wallets/{id}/balance', [WalletController::class, 'showBalance']);

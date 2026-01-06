@@ -4,13 +4,12 @@ namespace App\Services;
 
 use App\Models\Wallet;
 use App\Repositories\Interfaces\WalletRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class WalletService
 {
     private $walletRepository;
-    
+
     public function __construct(WalletRepositoryInterface $walletRepository)
     {
         $this->walletRepository = $walletRepository;
@@ -32,5 +31,10 @@ class WalletService
     public function getWalletById(int $id): Wallet
     {
         return $this->walletRepository->findById($id);
+    }
+
+    public function getWalletBalance(int $id): Wallet
+    {
+        return $this->walletRepository->findById($id, ['balance_minor']);
     }
 }
