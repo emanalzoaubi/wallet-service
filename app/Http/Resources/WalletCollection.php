@@ -15,14 +15,7 @@ class WalletCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => $this->collection->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'owner_name' => $item->owner_name,
-                    'currency' => $item->currency,
-                    'balance_minor' => $item->balance_minor,
-                ];
-            }),
+            'data' => WalletResource::collection($this->collection),
             'pager' => [
                 'total' => $this->total(),
                 'per_page' => $this->perPage(),

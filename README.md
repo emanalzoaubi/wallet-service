@@ -88,7 +88,6 @@ Content-Type: application/json
     "currency": "USD",
     "balance_minor": 0,
     "created_at": "2026-01-05T12:00:00.000000Z",
-    "updated_at": "2026-01-05T12:00:00.000000Z"
   }
 }
 ```
@@ -108,7 +107,6 @@ GET /api/wallets/{id}
     "currency": "USD",
     "balance_minor": 10000,
     "created_at": "2026-01-05T12:00:00.000000Z",
-    "updated_at": "2026-01-05T12:00:00.000000Z"
   }
 }
 ```
@@ -133,7 +131,8 @@ GET /api/wallets?owner_name=John&currency=USD&per_page=10
         "id": 1,
         "owner_name": "John Doe",
         "currency": "USD",
-        "balance_minor": 10000
+        "balance_minor": 10000,
+        "created_at": "2026-01-05T12:00:00.000000Z",
       }
     ],
     "pager": {

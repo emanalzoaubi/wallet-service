@@ -20,7 +20,6 @@ class WalletResource extends JsonResource
             'currency' => $this->currency,
             'balance_minor' => $this->balance_minor,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }
