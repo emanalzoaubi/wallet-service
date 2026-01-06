@@ -11,9 +11,12 @@ use App\Http\Requests\{
 };
 use App\Http\Resources\{
     TransactionCollection,
+    TransactionResource,
+    TransferResource
 };
 use App\Models\Wallet;
 use App\Services\TransactionService;
+use Illuminate\Http\JsonResponse;
 
 class TransactionController extends BaseController
 {
@@ -24,23 +27,23 @@ class TransactionController extends BaseController
         $this->transactionService = $transactionService;
     }
 
-    public function deposit(Wallet $wallet, DepositRequest $request)
+    public function deposit(Wallet $wallet, DepositRequest $request): JsonResponse
     {
         $idempotencyKey = $request->header('Idempotency-Key');
 
         $transaction = $this->transactionService->deposit($wallet, $request->amount, $idempotencyKey);
-        return $this->respond($transaction);
+        return $this->respond(new TransactionResource($transaction));
     }
 
-    public function withdraw(Wallet $wallet, WithdrawRequest $request)
+    public function withdraw(Wallet $wallet, WithdrawRequest $request): JsonResponse
     {
         $idempotencyKey = $request->header('Idempotency-Key');
 
         $transaction = $this->transactionService->withdraw($wallet, $request->amount, $idempotencyKey);
-        return $this->respond($transaction);
+        return $this->respond(new TransactionResource($transaction));
     }
 
-    public function transfer(TransferRequest $request)
+    public function transfer(TransferRequest $request): JsonResponse
     {
         $idempotencyKey = $request->header('Idempotency-Key');
         $fromWalletId = $request->from_wallet_id;
@@ -48,10 +51,10 @@ class TransactionController extends BaseController
         $amount = $request->amount;
 
         $transactions = $this->transactionService->transfer($fromWalletId, $toWalletId, $amount, $idempotencyKey);
-        return $this->respond($transactions);
+        $transferResource = new TransferResource($transactions);
+        return $this->respond($transferResource->toArray($request));
     }
-
-
+    
     public function history(Wallet $wallet, TransactionHistoryRequest $request): JsonResponse
     {
         $perPage = $request->get('per_page', config('pagination.per_page'));

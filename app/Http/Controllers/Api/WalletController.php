@@ -10,6 +10,7 @@ use App\Http\Resources\{
     WalletCollection,
     WalletResource
 };
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class WalletController extends BaseController
@@ -21,7 +22,7 @@ class WalletController extends BaseController
         $this->walletService = $walletService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $perPage = $request->get('per_page', config('pagination.per_page'));
         $filters = $request->only(['owner_name', 'currency']);
@@ -30,19 +31,19 @@ class WalletController extends BaseController
         return $this->respond(new WalletCollection($wallets));
     }
 
-    public function store(CreateWalletRequest $request)
+    public function store(CreateWalletRequest $request): JsonResponse
     {
         $wallet = $this->walletService->createWallet($request->owner_name, $request->currency);
-        return $this->respond($wallet);
+        return $this->respond(new WalletResource($wallet));
     }
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $wallet = $this->walletService->getWalletById($id);
         return $this->respond(new WalletResource($wallet));
     }
 
-    public function showBalance(int $id)
+    public function showBalance(int $id): JsonResponse
     {
         $wallet = $this->walletService->getWalletBalance($id);
 
