@@ -24,7 +24,7 @@ class TransactionResource extends JsonResource
         ];
 
         // Only include related_wallet for transfer transactions
-        if ($this->type === TransactionType::TRANSFER_DEBIT || $this->type === TransactionType::TRANSFER_CREDIT) {
+        if ($this->isTransferTransaction()) {
             $data['related_wallet'] = [
                 'id' => $this->relatedWallet->id,
                 'owner_name' => $this->relatedWallet->owner_name,
@@ -32,6 +32,11 @@ class TransactionResource extends JsonResource
         }
 
         return $data;
+    }
+
+    private function isTransferTransaction(): bool
+    {
+        return $this->type === TransactionType::TRANSFER_DEBIT || $this->type === TransactionType::TRANSFER_CREDIT;
     }
 }
 
