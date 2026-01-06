@@ -11,4 +11,9 @@ class WalletRepository extends BaseRepository implements WalletRepositoryInterfa
     {
         parent::__construct($model);
     }
+
+    public function findByIdWithLock(int $walletId): Wallet
+    {
+        return Wallet::lockForUpdate()->findOrFail($walletId);
+    }
 }

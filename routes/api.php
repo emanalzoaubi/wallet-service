@@ -1,14 +1,17 @@
 <?php
 
+use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\WalletController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
 Route::post('/wallets', [WalletController::class, 'store']);
 Route::get('/wallets/{id}', [WalletController::class, 'show']);
 Route::get('/wallets', [WalletController::class, 'index']);
 Route::get('/wallets/{id}/balance', [WalletController::class, 'showBalance']);
+
+Route::middleware('idempotency')->group(function () {
+    Route::post('/wallets/{wallet}/deposit', [TransactionController::class, 'deposit']);
+    Route::post('/wallets/{wallet}/withdraw', [TransactionController::class, 'withdraw']);
+});
+
