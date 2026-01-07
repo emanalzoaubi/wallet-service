@@ -492,7 +492,7 @@ All errors follow a consistent format:
 
 ## Postman Collection
 
-A Postman collection is available in the repository /postman directory (`wallet-service.postman_collection.json`). Import it into Postman to test all endpoints.
+A Postman collection and environment are available in the repository under the /postman directory. Import (`wallet-service.postman_collection.json`) along with the provided environment into Postman to test all endpoints.
 
 ## Database Schema
 
