@@ -47,7 +47,7 @@ A RESTful API for managing wallets, performing deposits, withdrawals, and transf
    DB_PORT=3306
    DB_DATABASE=wallet_service
    DB_USERNAME=wallet_user
-   DB_PASSWORD=
+   DB_PASSWORD=secret
    ```
 
 4. **Build and start containers**
